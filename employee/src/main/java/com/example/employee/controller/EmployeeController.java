@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/employee")
+//http://localhost:8080/employee-service/api/employee/1
 public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;

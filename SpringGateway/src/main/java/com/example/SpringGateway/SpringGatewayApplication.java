@@ -6,6 +6,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
+//http://localhost:8085/api/employee/1
+//http://localhost:8085/api/address/1
 public class SpringGatewayApplication {
 
 	public static void main(String[] args) {

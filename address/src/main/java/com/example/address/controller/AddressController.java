@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/address/")
+//http://localhost:8081/address-service/api/address/1
 public class AddressController {
 
     @Autowired

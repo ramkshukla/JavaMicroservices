@@ -1,5 +1,6 @@
 package com.example.employee.service;
 
+import com.example.employee.client.AddressFeignClient;
 import com.example.employee.entity.Employee;
 import com.example.employee.repository.EmployeeRepository;
 import com.example.employee.response.AddressResponse;
@@ -22,6 +23,8 @@ public class EmployeeService {
     private RestTemplate restTemplate;
     @Autowired
     private ModelMapper mapper;
+    @Autowired
+    private AddressFeignClient addressFeignClient;
 
     @Autowired
     private LoadBalancerClient loadBalancerClient;
@@ -35,17 +38,20 @@ public class EmployeeService {
         if (employeeOptional.isPresent()) {
             EmployeeResponse employeeResponse = mapper.map(employeeOptional.get(), EmployeeResponse.class);
             try {
-                AddressResponse addressResponse = restTemplate.getForObject(
-                        "http://address-service/address-service/api/address/{employeeId}",
-                        AddressResponse.class,
-                        employeeId
-                );                employeeResponse.setAddressResponse(addressResponse);
+//                AddressResponse addressResponse = restTemplate.getForObject(
+//                        "http://address-service/address-service/api/address/{employeeId}",
+//                        AddressResponse.class,
+//                        employeeId
+//                );
+                AddressResponse addressResponse = addressFeignClient.getAddressByEmployeeId(employeeId);
+
+                employeeResponse.setAddressResponse(addressResponse);
             } catch (HttpClientErrorException.NotFound e) {
                 employeeResponse.setAddressResponse(null);
             }
             return employeeResponse;
         }
-        return null; // or handle as appropriate
+        return null;
     }
 
     public List<Employee> getAllEmployees() {
